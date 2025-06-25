@@ -1,0 +1,23 @@
+<view class="gesture-drawer {{show ? 'show' : ''}}" catchtouchmove>
+  <view class="gesture-drawer-mask" bindtap="close" catchtouchmove></view>
+  <view class="gesture-drawer-content">
+    <view class="gesture-drawer-header">
+      <text class="title">签到手势</text>
+      <text class="subtitle">请在9宫格内绘制签到手势</text>
+    </view>
+    <view class="gesture-drawer-body">
+      <canvas 
+        type="2d" 
+        id="gestureCanvas"
+        class="gesture-canvas"
+        bindtouchstart="touchStart"
+        bindtouchmove="touchMove"
+        bindtouchend="touchEnd"
+      ></canvas>
+    </view>
+    <view class="gesture-drawer-footer">
+      <button class="btn-clear" bindtap="clearCanvas">清除</button>
+      <button class="btn-confirm" bindtap="confirmGesture">确认</button>
+    </view>
+  </view>
+</view> 

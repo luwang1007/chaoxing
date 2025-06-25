@@ -1,0 +1,406 @@
+:root {
+  --primary-color: #07C160;
+  --primary-gradient: #F7F7F7;
+  --card-background: #fff;
+  --text-color: #333;
+  --text-color-secondary: #666;
+  --text-color-light: #999;
+  --border-color: #E5E5E5;
+  --highlight-gradient: #E8F5E9;
+  --primary-light: #E8F5E9;
+  --shadow-normal: 0 2rpx 8rpx rgba(7,193,96,0.04);
+  --shadow-hover: 0 4rpx 16rpx rgba(7,193,96,0.08);
+  --shadow-active: 0 1rpx 4rpx rgba(7,193,96,0.12);
+  --primary-glow: 0 0 8rpx #07C16033;
+}
+
+body, .container {
+  background: #F7F7F7;
+}
+
+.title, .sign-title {
+  color: #333;
+}
+
+.sign-info, .sign-status, .sign-time, .sign-location, .sign-desc {
+  color: #666;
+}
+
+.card, .sign-list, .container {
+  background: #fff;
+  border-color: #E5E5E5;
+}
+
+.card, .sign-list {
+  box-shadow: none;
+}
+
+.btn-primary, .sign-status.active {
+  color: #fff;
+  background: #07C160;
+  border-color: #07C160;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background: #F7F7F7;
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(7, 193, 96, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 新增按钮行样式 */
+.button-row {
+  display: flex;
+  gap: 20rpx;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.btn-secondary {
+  background: #f8f8f8;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8rpx;
+  padding: 20rpx 40rpx;
+  font-size: 32rpx;
+}
+
+.sign-box {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.sign-status {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.status-text {
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+.result-text {
+  font-size: 28rpx;
+  margin: 20rpx 0;
+  display: block;
+}
+
+.success .status-text {
+  color: #34C759;
+}
+
+.failed .status-text {
+  color: #FF3B30;
+}
+
+/* 统计信息样式 */
+.stats-box {
+  background: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin: 20rpx 0;
+}
+
+.stats-section {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1px solid #eee;
+}
+
+.stats-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+
+.stats-label {
+  color: #666;
+}
+
+.stats-value {
+  color: #333;
+  font-weight: 500;
+}
+
+/* 课程列表样式 */
+.course-list {
+  margin-top: 30rpx;
+}
+
+.course-item {
+  background: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.course-name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.course-teacher {
+  font-size: 28rpx;
+}
+
+.course-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 活动列表样式 */
+.activity-list {
+  margin-top: 20rpx;
+}
+
+.activity-item {
+  background: #fff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.activity-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.activity-type {
+  font-size: 26rpx;
+  color: #007AFF;
+  background: rgba(0, 122, 255, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.activity-time {
+  display: flex;
+  flex-direction: column;
+  font-size: 26rpx;
+}
+
+.time-left {
+  margin-top: 10rpx;
+  color: #007AFF;
+}
+
+.time-left.urgent {
+  color: #FF3B30;
+}
+
+/* 按钮样式 */
+.scan-btn {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.no-main-account {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.no-main-account text {
+  display: block;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.accounts-success {
+  color: #07c160;
+  margin-bottom: 8rpx;
+}
+.account-success {
+  margin-right: 12rpx;
+  background: #e8f7f0;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+}
+.accounts-failed {
+  color: #fa5151;
+}
+.account-failed {
+  margin-right: 12rpx;
+  background: #fde9e9;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+}
+
+/* 预热进度条样式 */
+.warmup-container {
+  margin-top: 30rpx;
+  width: 100%;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+}
+
+.warmup-progress {
+  width: 100%;
+  height: 8rpx;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4rpx;
+  overflow: hidden;
+  box-shadow: inset 0 1rpx 2rpx rgba(0, 0, 0, 0.1);
+}
+
+.warmup-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #07c160, #10aeff);
+  border-radius: 4rpx;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1rpx 2rpx rgba(7, 193, 96, 0.3);
+}
+
+.warmup-status {
+  font-size: 26rpx;
+  margin-top: 16rpx;
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
+  text-shadow: 0 1rpx 1rpx rgba(255, 255, 255, 0.8);
+}
+
+.sign-result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.sign-result-content {
+  width: 80%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.sign-result-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sign-result-body {
+  margin-bottom: 20px;
+}
+
+.result-section {
+  margin-bottom: 15px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.section-title.success {
+  color: #07c160;
+}
+
+.section-title.failed {
+  color: #fa5151;
+}
+
+.account-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-item {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.account-item.success {
+  background: #e8f7f0;
+  color: #07c160;
+}
+
+.account-item.failed {
+  background: #fde9e9;
+  color: #fa5151;
+}
+
+.sign-result-footer {
+  text-align: center;
+}
+
+.close-btn {
+  background: #07c160;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.close-btn:active {
+  opacity: 0.8;
+} 

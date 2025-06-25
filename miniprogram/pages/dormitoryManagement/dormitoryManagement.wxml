@@ -1,0 +1,30 @@
+<view class="dormitory-container">
+  <view class="dormitory-title">宿舍管理</view>
+  <view class="dormitory-list">
+    <block wx:for="{{accounts}}" wx:key="username">
+      <view class="dormitory-item">
+        <text class="dormitory-name">{{item.name}}</text>
+        <text class="dormitory-flag-inline">{{item.is555 ? '555宿舍成员' : '寝外人员'}}</text>
+        <text class="dormitory-username">({{item.username}})</text>
+        <switch
+          checked="{{item.is555}}"
+          bindchange="onSwitchChange"
+          data-username="{{item.username}}"
+          style="margin-left:auto;"
+        />
+        <view wx:if="{{item.username === '17600378510'}}" class="switch-mask" bindtap="onLuSwitchTap"></view>
+      </view>
+    </block>
+  </view>
+  <view wx:if="{{showLuModal}}" class="dormitory-modal-mask">
+    <view class="dormitory-modal">
+      <view class="dormitory-modal-title red">你爹地你都敢改？！</view>
+      <button class="dormitory-modal-btn" bindtap="onLuSorry">我错了</button>
+    </view>
+  </view>
+  <view wx:if="{{showKickModal}}" class="dormitory-modal-mask">
+    <view class="dormitory-modal">
+      <view class="dormitory-modal-title">你已被踢出555宿舍！</view>
+    </view>
+  </view>
+</view> 

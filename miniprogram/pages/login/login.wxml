@@ -1,0 +1,113 @@
+<view class="container">
+  <view class="login-header">
+    <image class="logo" src="/img/1.jpg" mode="aspectFit"></image>
+    <text class="title">555宿舍专用</text>
+    <text class="subtitle">啊？不是我干的</text>
+  </view>
+
+  <view class="login-form card">
+    <view class="input-group">
+      <text class="label">学号</text>
+      <input 
+        class="input" 
+        type="text" 
+        placeholder="请输入学号" 
+        value="{{username}}"
+        bindinput="onInputChange"
+        data-field="username"
+      />
+    </view>
+    
+    <view class="input-group">
+      <text class="label">密码</text>
+      <input 
+        class="input" 
+        type="password" 
+        placeholder="请输入密码" 
+        value="{{password}}"
+        bindinput="onInputChange"
+        data-field="password"
+      />
+    </view>
+
+    <view class="checkbox-group" wx:if="{{!isFirstAccount}}">
+      <checkbox-group bindchange="onMainAccountChange">
+        <label class="checkbox-label">
+          <checkbox value="main" checked="{{isMainAccount}}" />
+          <text>设置为主账号</text>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <button 
+      class="btn btn-primary login-btn" 
+      bindtap="handleLogin"
+    >登录</button>
+  </view>
+
+  <view class="login-footer">
+    <text class="agreement-text">登录即表示同意</text>
+    <text class="agreement-link" bindtap="goToAgreement">《用户协议》</text>
+  </view>
+</view>
+
+<view wx:if="{{showCaoModal}}" class="cao-modal-mask">
+  <view class="cao-modal">
+    <image src="../../img/cao.jpg" mode="aspectFit" class="cao-modal-img" />
+    <view class="cao-modal-title">提示</view>
+    <view class="cao-modal-content">你是他妈555宿舍的吗？！你就用！</view>
+    <button class="cao-modal-btn" bindtap="closeCaoModal">确定</button>
+  </view>
+</view>
+
+<view wx:if="{{showUpdateLogModal}}" class="cao-modal-mask">
+  <view class="cao-modal">
+    <image src="../../img/update.png" mode="aspectFit" class="cao-modal-img" />
+    <view class="cao-modal-title">更新日志</view>
+    <view class="cao-modal-content" style="text-align:left;max-width:90vw;">
+      <view>v2.0 主要更新：</view>
+      <view>• 全新微信官方配色与现代UI风格</view>
+      <view>• 全局绿色渐变光晕背景动画</view>
+      <view>• 课程/账号/宿舍卡片美化与自适应</view>
+      <view>• loading弹窗、按钮等控件体验升级</view>
+      <view>• 宿舍管理/昵称编辑等细节优化</view>
+      <view>• 隐藏彩蛋与趣味交互</view>
+      <view>v2.1 主要更新：</view>
+      <view>• 修复了些许BUG</view>
+      <view>v2.2 主要更新：</view>
+      <view>• 优化了签到速度</view>
+      <view>v2.3 主要更新：</view>
+      <view>• 增加了安卓系统的适配性</view>
+      <view>v2.4 主要更新：</view>
+      <view>• 修复了用户无法获取数据库的BUG，增加保持登录状态的功能，优化了签到速度</view>
+      <view>v2.5 主要更新：</view>
+      <view>• 美化了ui，大幅提升了签到速度</view>
+      <view>v2.6 主要更新：</view>
+      <view>修复了检测签到任务的BUG，优化了签到逻辑</view>
+      <view style="margin-top:12rpx;color:#999;font-size:24rpx;">如遇问题请及时反馈！</view>
+    </view>
+    <button class="cao-modal-btn" bindtap="closeUpdateLogModal">我知道了</button>
+  </view>
+</view>
+
+<view wx:if="{{loading}}" class="center-loading">
+  <view class="center-loading-box">
+    <view class="spinner"></view>
+    <text class="loading-text">登录中...</text>
+  </view>
+</view>
+
+<view wx:if="{{successToast}}" class="center-loading">
+  <view class="center-loading-box">
+    <view class="success-icon"></view>
+    <text class="loading-text">登录成功</text>
+  </view>
+</view>
+
+<view wx:if="{{failToast}}" class="center-loading">
+  <view class="center-loading-box">
+    <view class="fail-icon"></view>
+    <text class="loading-text">登录失败</text>
+    <text class="fail-msg">{{failMsg}}</text>
+  </view>
+</view> 

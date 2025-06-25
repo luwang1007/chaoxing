@@ -1,0 +1,111 @@
+/**
+ * @param {Request} request
+ * @returns {Promise<Response>}
+ */
+export async function handleRequest(request) {
+  const url = new URL(request.url);
+
+  // 检查路径是否为 /proxy
+  if (url.pathname !== '/proxy') {
+    return new Response('Invalid path. Please use /proxy?url=...', { 
+      status: 400,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
+  }
+
+  // 获取并解码原始请求的 URL
+  const encodedUrl = url.searchParams.get('url');
+  if (!encodedUrl) {
+    return new Response('Missing url parameter. Please use /proxy?url=ENCODED_URL', { 
+      status: 400,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
+  }
+
+  // 解码 URL
+  let targetUrl;
+  try {
+    targetUrl = decodeURIComponent(encodedUrl);
+    const parsedUrl = new URL(targetUrl);
+    
+    // 确保目标 URL 是超星的域名
+    if (!parsedUrl.hostname.includes('chaoxing.com')) {
+      return new Response('Invalid target host. Only chaoxing.com domains are allowed.', { 
+        status: 400,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
+    }
+  } catch (err) {
+    return new Response('Invalid encoded url parameter: ' + err.message, { 
+      status: 400,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
+  }
+
+  // 构造请求头
+  const newHeaders = new Headers();
+  
+  // 保留原始请求的重要头部
+  const originalHeaders = request.headers;
+  for (const [key, value] of originalHeaders.entries()) {
+    if (['cookie', 'content-type'].includes(key.toLowerCase())) {
+      newHeaders.set(key, value);
+    }
+  }
+
+  // 设置必要的请求头
+  newHeaders.set('Accept-Encoding', 'identity');
+  newHeaders.set('Origin', 'https://mobilelearn.chaoxing.com');
+  newHeaders.set('Referer', 'https://mobilelearn.chaoxing.com/newsign/sign');
+  newHeaders.set('X-Requested-With', 'XMLHttpRequest');
+  newHeaders.set('User-Agent', 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.20(0x17001427)');
+
+  try {
+    console.log('Proxying request:', {
+      targetUrl,
+      method: request.method,
+      headers: Object.fromEntries(newHeaders.entries())
+    });
+
+    // 发送请求
+    const resp = await fetch(targetUrl, {
+      method: request.method,
+      headers: newHeaders,
+      body: request.method === 'POST' ? await request.text() : undefined
+    });
+
+    // 只保留必要的响应头
+    const filteredHeaders = new Headers();
+    const allowedHeaders = ['content-type', 'content-length'];
+    
+    for (const [key, value] of resp.headers.entries()) {
+      if (allowedHeaders.includes(key.toLowerCase())) {
+        filteredHeaders.set(key, value);
+      }
+    }
+
+    // 确保设置正确的 Content-Type
+    if (!filteredHeaders.has('content-type')) {
+      filteredHeaders.set('content-type', 'text/html; charset=utf-8');
+    }
+
+    console.log('Proxy response:', {
+      status: resp.status,
+      headers: Object.fromEntries(filteredHeaders.entries())
+    });
+
+    return new Response(resp.body, {
+      status: resp.status,
+      headers: filteredHeaders
+    });
+
+  } catch (err) {
+    console.error('Proxy error:', err);
+    return new Response('Proxy error: ' + (err.message || 'Unknown error'), {
+      status: 500,
+      headers: { 
+        'Content-Type': 'text/plain; charset=utf-8'
+      }
+    });
+  }
+}

@@ -1,0 +1,124 @@
+.gesture-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.gesture-drawer.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.gesture-drawer-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.gesture-drawer-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 0 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gesture-drawer-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.gesture-drawer-header .title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.gesture-drawer-header .subtitle {
+  font-size: 14px;
+  color: #666;
+}
+
+.gesture-drawer-body {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  background: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.gesture-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.grid-row {
+  display: flex;
+  height: 33.33%;
+}
+
+.grid-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  font-size: 24px;
+  color: #999;
+}
+
+.gesture-drawer-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding: 0 32px;
+}
+
+.btn-clear, .btn-confirm {
+  width: 45%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.btn-clear {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-confirm {
+  background: #07c160;
+  color: #fff;
+} 

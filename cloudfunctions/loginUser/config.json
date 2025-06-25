@@ -1,0 +1,6 @@
+{
+  "timeout": 20,
+  "envVariables": {},
+  "runtime": "Nodejs12.16",
+  "memorySize": 128
+} 

@@ -1,0 +1,43 @@
+<!--pages/courseHistory/courseHistory.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="title-bar">
+      <view class="title-bar-line"></view>
+      <text class="title-text">{{courseName}}</text>
+    </view>
+    <view class="refresh-btn" bindtap="loadHistory">
+      <text class="refresh-icon">↻</text>
+    </view>
+  </view>
+
+  <view class="history-list">
+    <block wx:if="{{history.length > 0}}">
+      <view class="history-item" wx:for="{{history}}" wx:key="id">
+        <view class="history-info">
+          <text class="history-name">{{item.name}}</text>
+          <view class="history-time-row">
+            <text>开始: {{item.startTime}}</text>
+            <text style="margin-left: 16rpx;">结束: {{item.endTime}}</text>
+          </view>
+          <view class="history-detail-row">
+            <text>类型: {{item.type || '未知'}}</text>
+            <text wx:if="{{item.activeType}}" style="margin-left: 16rpx;">| 活动类型: {{item.activeType}}</text>
+            <text wx:if="{{item.isSign !== undefined}}" style="margin-left: 16rpx;">| 已签到: {{item.isSign ? '是' : '否'}}</text>
+            <text wx:if="{{item.id}}" style="margin-left: 16rpx;">| ID: {{item.id}}</text>
+          </view>
+        </view>
+        <view class="history-status {{item.status === '进行中' ? 'active' : (item.status === '已结束' ? 'ended' : '')}}">
+          {{item.status}}
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      <text>暂无历史记录</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="fullpage-loading">
+    <view class="spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view> 

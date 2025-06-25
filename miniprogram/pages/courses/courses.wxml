@@ -1,0 +1,100 @@
+<view class="container">
+  <view class="header">
+    <view class="title-bar">
+      <view class="title-bar-line"></view>
+      <text class="title-text">课程列表</text>
+    </view>
+    <view class="refresh-btn" bindtap="refreshCourses">
+      <text class="refresh-icon">↻</text>
+    </view>
+  </view>
+
+  <view class="courses-list">
+    <block wx:if="{{courses.length > 0}}">
+      <view class="course-item" wx:for="{{courses}}" wx:key="courseId" bindtap="viewCourseHistory" data-course="{{item}}">
+        <view class="course-info">
+          <text class="course-name">{{item.courseName}}</text>
+          <text class="course-teacher">教师：{{item.teacherName}}</text>
+        </view>
+        <view class="course-arrow">></view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      <text>暂无课程</text>
+    </view>
+  </view>
+
+  <!-- 原有 loading 层删除，替换为新的全屏 loading -->
+  <view wx:if="{{loading}}" class="fullpage-loading">
+    <view class="spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <text class="error-text">{{error}}</text>
+    <button class="retry-button" bindtap="loadCourses">重试</button>
+  </view>
+
+  <!-- 正常状态 -->
+  <block wx:else>
+    <!-- 顶部搜索栏 -->
+    <view class="search-bar">
+      <view class="search-input">
+        <icon type="search" size="14" color="#999"></icon>
+        <input 
+          type="text" 
+          placeholder="搜索课程" 
+          bindinput="onSearchInput" 
+          value="{{searchKey}}"
+          confirm-type="search"
+        />
+      </view>
+    </view>
+
+    <!-- 课程列表 -->
+    <scroll-view 
+      scroll-y 
+      class="course-list" 
+      enable-back-to-top
+      refresher-enabled
+      refresher-triggered="{{loading}}"
+      bindrefresherrefresh="onPullDownRefresh"
+    >
+      <block wx:if="{{filteredCourses && filteredCourses.length > 0}}">
+        <view 
+          class="course-item" 
+          wx:for="{{filteredCourses}}" 
+          wx:key="classId" 
+          bindtap="goToSignIn" 
+          data-course="{{item}}"
+        >
+          <image 
+            class="course-image" 
+            src="{{item.img || '/static/images/default-course.png'}}" 
+            mode="aspectFill"
+            lazy-load
+          ></image>
+          <view class="course-info">
+            <view class="course-name">{{item.courseName}}</view>
+            <view class="course-detail">
+              <text class="class-name">{{item.className}}</text>
+              <text class="teacher-name">{{item.teacherName}}</text>
+            </view>
+            <view class="course-folder" wx:if="{{item.folder}}">
+              <text class="folder-tag">{{item.folder}}</text>
+            </view>
+          </view>
+          <view class="course-status {{item.isTeach ? 'teaching' : 'learning'}}">
+            {{item.isTeach ? '教学' : '学习'}}
+          </view>
+        </view>
+      </block>
+      <view wx:else class="empty-state">
+        <icon type="info" size="64" color="#999"></icon>
+        <text>暂无课程</text>
+        <text class="debug-info" wx:if="{{courses}}">数据长度: {{courses.length}}</text>
+      </view>
+    </scroll-view>
+  </block>
+</view> 

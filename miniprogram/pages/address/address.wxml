@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="title">账号地址信息</view>
+  <block wx:for="{{accounts}}" wx:key="username">
+    <view class="account-item">
+      <view class="account-info">
+        <text class="name-label">{{item.name || item.username}}</text>
+        <text class="username">{{item.username}}</text>
+        <button class="edit-btn" bindtap="onEditAddress" data-username="{{item.username}}" style="width: 424rpx; display: flex; box-sizing: border-box; left: 0rpx; top: 0rpx">修改地址信息</button>
+      </view>
+      <view class="account-address">
+        <text class="address-label" wx:if="{{item.address}}">
+          {{item.address.name}} {{item.address.address}}
+        </text>
+        <text class="address-label" wx:else>
+          暂无地址
+        </text>
+      </view>
+    </view>
+  </block>
+</view> 

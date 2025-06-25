@@ -1,0 +1,4 @@
+<view class="no-data">
+  <image class="no-data-image" src="/assets/images/no-data.png" mode="aspectFit"></image>
+  <text class="no-data-text">{{text}}</text>
+</view> 

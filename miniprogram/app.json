@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/sign/sign",
+    "pages/credentials/credentials",
+    "pages/address/address",
+    "pages/courses/courses",
+    "pages/courseHistory/courseHistory",
+    "pages/agreement/agreement",
+    "pages/parody/parody",
+    "pages/dormitoryManagement/dormitoryManagement"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "555宿舍专用",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#888",
+    "selectedColor": "#07c160",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/courses/courses",
+        "text": "课程"
+      },
+      {
+        "pagePath": "pages/sign/sign",
+        "text": "签到"
+      },
+      {
+        "pagePath": "pages/credentials/credentials",
+        "text": "账户"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于位置签到"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+} 

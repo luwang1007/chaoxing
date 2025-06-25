@@ -1,0 +1,55 @@
+<view class="parody-container">
+  <view class="parody-title power-btn" bindtap="onPowerTap">POWER!</view>
+  <!-- 弹窗 -->
+  <view wx:if="{{showModal}}" class="parody-modal-mask">
+    <view class="parody-modal">
+      <view class="parody-modal-title">恭喜你发现隐藏界面！</view>
+      <view class="parody-modal-content">现在我赋予你篡改其他人在签到时名字的权利。</view>
+      <button class="parody-modal-btn" bindtap="closeModal">我知道了</button>
+    </view>
+  </view>
+  <!-- 账户信息列表 -->
+  <view class="parody-accounts">
+    <view class="parody-accounts-title">账户信息</view>
+    <block wx:for="{{accounts}}" wx:key="username">
+      <view class="parody-account-item">
+        <view class="parody-account-info">
+          <text class="parody-account-username">账号：{{item.username}}</text>
+          <text class="parody-account-name" wx:if="{{editIndex !== index}}">{{item.name}}</text>
+          <input class="parody-account-edit-input" wx:if="{{editIndex === index}}" value="{{editName}}" bindinput="onEditNameInput" />
+        </view>
+        <block wx:if="{{editIndex === index}}">
+          <button class="parody-account-edit-btn" size="mini" bindtap="onSaveEdit" data-index="{{index}}" data-username="{{item.username}}">保存</button>
+        </block>
+        <block wx:elif="{{item.name === '卢加轩'}}">
+          <button class="parody-account-edit-btn" size="mini" bindtap="onLuEdit" data-index="{{index}}" data-username="{{item.username}}">编辑</button>
+        </block>
+        <block wx:else>
+          <button class="parody-account-edit-btn" size="mini" bindtap="onEditName" data-index="{{index}}" data-name="{{item.name}}">编辑</button>
+        </block>
+      </view>
+    </block>
+  </view>
+  <!-- 卢加轩专属弹窗 -->
+  <view wx:if="{{showLuModal}}" class="parody-modal-mask">
+    <view class="parody-modal">
+      <view class="parody-modal-title red">你爹的都敢改？！</view>
+      <button class="parody-modal-btn" bindtap="onLuSorry">我错了</button>
+    </view>
+  </view>
+  <view wx:if="{{showKickModal}}" class="parody-modal-mask">
+    <view class="parody-modal">
+      <view class="parody-modal-title">你已被踢出宿舍</view>
+      <button class="parody-modal-btn" bindtap="onLuKicked">确定</button>
+    </view>
+  </view>
+  <!-- 密码弹窗 -->
+  <view wx:if="{{showPasswordModal}}" class="parody-modal-mask">
+    <view class="parody-modal">
+      <view class="parody-modal-title green">请输入密码</view>
+      <input class="parody-password-input" password="true" placeholder="请输入密码" value="{{inputPassword}}" bindinput="onPasswordInput" />
+      <button class="parody-modal-btn" bindtap="onPasswordConfirm">确定</button>
+      <button class="parody-modal-btn" style="background:#ccc;color:#333;margin-top:12rpx;" bindtap="closePasswordModal">取消</button>
+    </view>
+  </view>
+</view> 

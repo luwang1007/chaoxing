@@ -1,0 +1,377 @@
+:root {
+  --primary-color: #07C160;
+  --primary-gradient: #F7F7F7;
+  --card-background: #fff;
+  --text-color: #333;
+  --text-color-secondary: #666;
+  --text-color-light: #999;
+  --border-color: #E5E5E5;
+  --highlight-gradient: #E8F5E9;
+  --primary-light: #E8F5E9;
+  --shadow-normal: 0 2rpx 8rpx rgba(7,193,96,0.04);
+  --shadow-hover: 0 4rpx 16rpx rgba(7,193,96,0.08);
+  --shadow-active: 0 1rpx 4rpx rgba(7,193,96,0.12);
+  --primary-glow: 0 0 8rpx #07C16033;
+}
+
+body, .container, .dormitory-container {
+  background: #F7F7F7;
+}
+
+.dormitory-title, .dormitory-name {
+  color: #333;
+}
+
+.dormitory-username, .dormitory-flag {
+  color: #666;
+}
+
+.dormitory-item, .dormitory-list {
+  background: #fff;
+  border-color: #E5E5E5;
+}
+
+.dormitory-item, .dormitory-list {
+  box-shadow: none;
+}
+
+.dormitory-flag {
+  background: #07C160;
+  color: #fff;
+}
+
+.container {
+  min-height: 100vh;
+  padding: var(--spacing-large);
+  box-sizing: border-box;
+  background: var(--primary-gradient);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(7, 193, 96, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  animation: shimmer 8s infinite;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-large);
+  text-align: center;
+  text-shadow: 0 2rpx 8rpx rgba(234, 246, 255, 0.8);
+  letter-spacing: 2rpx;
+  animation: titleGlow 3s infinite;
+  transform: translateZ(20rpx);
+}
+
+.dormitory-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-normal);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dormitory-item {
+  background: var(--card-background);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-normal) var(--spacing-normal) var(--spacing-normal) 60rpx;
+  box-shadow: var(--shadow-normal);
+  backdrop-filter: blur(10rpx);
+  border: 1.5rpx solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  perspective: 1000rpx;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding-right: 90rpx;
+}
+
+.dormitory-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: var(--transition-normal);
+}
+
+.dormitory-item:hover {
+  transform: translateY(-4rpx) rotateX(2deg);
+  box-shadow: var(--shadow-hover);
+}
+
+.dormitory-item:hover::before {
+  left: 100%;
+}
+
+.dormitory-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateZ(10rpx);
+}
+
+.dormitory-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 16rpx;
+}
+
+.dormitory-name, .dormitory-username {
+  font-size: 22rpx;
+  max-width: 26vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.dormitory-name {
+  font-size: var(--font-size-normal);
+  font-weight: 600;
+  color: var(--text-color);
+  text-shadow: 0 1rpx 2rpx rgba(234, 246, 255, 0.4);
+  letter-spacing: 0.5rpx;
+}
+
+.dormitory-flag {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  width: 32rpx;
+  height: 32rpx;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12rpx;
+  font-weight: bold;
+  box-shadow: var(--primary-glow);
+  animation: pulse 2s infinite;
+  transform: translateZ(20rpx);
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) translateY(-100%); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 2rpx 8rpx rgba(234, 246, 255, 0.8); }
+  50% { text-shadow: 0 2rpx 16rpx rgba(234, 246, 255, 0.9); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(7, 193, 96, 0.4); }
+  70% { box-shadow: 0 0 0 10rpx rgba(7, 193, 96, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(7, 193, 96, 0); }
+}
+
+.dormitory-username {
+  max-width: 22vw;
+}
+
+/* 宿舍管理页面极简紧凑样式 */
+.dormitory-container {
+  background: #F7F7F7;
+  min-height: 100vh;
+  padding: 24rpx 0;
+}
+
+.dormitory-title {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  margin: 0 24rpx 16rpx 24rpx;
+}
+
+.dormitory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  padding: 0 12rpx;
+}
+
+.dormitory-item {
+  background: #fff;
+  border-radius: 12rpx;
+  border: 1rpx solid #E5E5E5;
+  box-shadow: 0 2rpx 8rpx rgba(7,193,96,0.04);
+  padding: 14rpx 18rpx;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.dormitory-name {
+  font-size: 20rpx;
+  color: #222;
+  font-weight: 600;
+  max-width: 28vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dormitory-username {
+  font-size: 16rpx;
+  color: #666;
+  max-width: 32vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+switch {
+  transform: scale(0.85);
+  margin-left: auto;
+}
+
+.dormitory-flag {
+  position: absolute;
+  top: 12rpx;
+  right: 16rpx;
+  width: 28rpx;
+  height: 28rpx;
+  background: #07C160;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10rpx;
+  font-weight: bold;
+  z-index: 2;
+  box-shadow: 0 0 8rpx #07C16033;
+}
+
+.dormitory-flag-inline {
+  display: inline-block;
+  background: #07C160;
+  color: #fff;
+  font-size: 14rpx;
+  border-radius: 16rpx;
+  padding: 2rpx 10rpx;
+  margin-left: 8rpx;
+  vertical-align: middle;
+}
+
+.dormitory-modal-mask {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dormitory-modal {
+  background: #fff;
+  border-radius: 18rpx;
+  padding: 48rpx 36rpx 36rpx 36rpx;
+  min-width: 400rpx;
+  box-shadow: 0 8rpx 32rpx rgba(7,193,96,0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dormitory-modal-title {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 32rpx;
+  text-align: center;
+}
+
+.dormitory-modal-title.red {
+  color: #e54d42;
+}
+
+.dormitory-modal-btn {
+  background: #07C160;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 24rpx;
+  padding: 16rpx 48rpx;
+  font-weight: bold;
+  margin-top: 12rpx;
+  border: none;
+}
+
+.switch-mask {
+  position: absolute;
+  right: 18rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 88rpx;
+  height: 44rpx;
+  z-index: 10;
+  background: rgba(0,0,0,0);
+} 

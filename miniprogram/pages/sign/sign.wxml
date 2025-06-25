@@ -1,0 +1,168 @@
+<view class="container">
+  <view class="sign-box shadow-radius">
+    <view class="title">签到了！！！！！！</view>
+
+    <!-- 未设置主账号提示 -->
+    <block wx:if="{{!hasMainAccount}}">
+      <view class="no-main-account">
+        <text>请先设置主账号</text>
+        <button class="btn-primary" bindtap="goToCredentials">去设置</button>
+      </view>
+    </block>
+
+    <!-- 签到状态显示 -->
+    <block wx:else>
+      <!-- 准备检测 -->
+      <block wx:if="{{signStatus === 'ready'}}">
+        <view class="sign-status">
+          <text class="status-text">点击下方按钮检测签到任务</text>
+          <button 
+            class="btn-primary scan-btn"
+            loading="{{loading}}"
+            bindtap="checkSignTasks"
+          >检测签到任务</button>
+        </view>
+      </block>
+
+      <!-- 检测中 -->
+      <block wx:if="{{signStatus === 'scanning'}}">
+        <view class="sign-status">
+          <text class="status-text">正在检测签到任务...</text>
+          <!-- 预热进度条 -->
+          <block wx:if="{{warmingUp}}">
+            <view class="warmup-container">
+              <view class="warmup-progress">
+                <view class="warmup-bar" style="width: {{warmupProgress}}"></view>
+              </view>
+              <text class="warmup-status">{{warmupStatus}}</text>
+            </view>
+          </block>
+        </view>
+      </block>
+
+      <!-- 检测成功 -->
+      <block wx:if="{{signStatus === 'success'}}">
+        <view class="sign-status success">
+          <text class="status-text">检测完成</text>
+          <text class="result-text">{{signResult.message}}</text>
+          
+          <!-- 新增：签到进度条 -->
+          <block wx:if="{{signingIn}}">
+            <view class="warmup-container">
+              <view class="warmup-progress">
+                <view class="warmup-bar" style="width: {{signProgress}}%"></view>
+              </view>
+              <text class="warmup-status">{{signStatusText}}</text>
+            </view>
+          </block>
+          
+          <!-- 显示统计信息 -->
+          <view class="stats-box" wx:if="{{stats}}">
+            <view class="stats-item">
+              <text class="stats-label">总课程数：</text>
+              <text class="stats-value">{{stats.totalCourses}}</text>
+            </view>
+            <view class="stats-item">
+              <text class="stats-label">已检查课程：</text>
+              <text class="stats-value">{{stats.checkedCourses}}</text>
+            </view>
+            <view class="stats-item">
+              <text class="stats-label">总活动数：</text>
+              <text class="stats-value">{{stats.totalActivities}}</text>
+            </view>
+            <view class="stats-item">
+              <text class="stats-label">签到任务：</text>
+              <text class="stats-value">{{stats.signTasks}}</text>
+            </view>
+            <!-- 签到类型统计 -->
+            <view class="stats-section" wx:if="{{stats.signTypes}}">
+              <view class="stats-title">签到类型统计</view>
+              <view class="stats-item">
+                <text class="stats-label">普通签到：</text>
+                <text class="stats-value">{{stats.signTypes.normal}}</text>
+              </view>
+              <view class="stats-item">
+                <text class="stats-label">图片签到：</text>
+                <text class="stats-value">{{stats.signTypes.photo}}</text>
+              </view>
+              <view class="stats-item">
+                <text class="stats-label">二维码签到：</text>
+                <text class="stats-value">{{stats.signTypes.qrcode}}</text>
+              </view>
+              <view class="stats-item">
+                <text class="stats-label">签到码签到：</text>
+                <text class="stats-value">{{stats.signTypes.code}}</text>
+              </view>
+              <view class="stats-item">
+                <text class="stats-label">位置签到：</text>
+                <text class="stats-value">{{stats.signTypes.location}}</text>
+              </view>
+              <view class="stats-item">
+                <text class="stats-label">手势签到：</text>
+                <text class="stats-value">{{stats.signTypes.gesture}}</text>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 显示有签到任务的课程列表 -->
+          <block wx:if="{{activeCourses.length > 0}}">
+            <view class="course-list">
+              <view class="course-item" wx:for="{{activeCourses}}" wx:key="courseId">
+                <view class="course-header">
+                  <text class="course-name">{{item.course.courseName}}</text>
+                  <text class="course-teacher">{{item.course.teacherName}}</text>
+                </view>
+                <view class="activity-list">
+                  <view class="activity-item" wx:for="{{item.activities}}" wx:key="id">
+                    <view class="activity-header">
+                      <text class="activity-name">{{item.name}}</text>
+                      <text class="activity-type">{{item.signMethod}}</text>
+                    </view>
+                    <view class="activity-time">
+                      <text>开始：{{item.startTime}}</text>
+                      <text>结束：{{item.endTime}}</text>
+                      <text class="time-left" wx:if="{{item.timeLeft > 0}}">剩余：{{item.timeLeft}}分钟</text>
+                      <text class="time-left urgent" wx:else>已超时</text>
+                    </view>
+                    <button class="btn-primary" size="mini" style="margin-top: 20rpx;" bindtap="onSignTap" data-activity="{{item}}" data-course="{{item.courseId}}">签到</button>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+
+          <button class="btn-primary" bindtap="resetSign">重新检测</button>
+
+          <!-- 签到账号结果展示 -->
+          <view wx:if="{{signAccountsResult}}" style="margin-top: 24rpx;">
+            <view wx:if="{{signAccountsResult.successAccounts && signAccountsResult.successAccounts.length > 0}}" class="accounts-success">
+              <text>成功账号：</text>
+              <text wx:for="{{signAccountsResult.successAccounts}}" wx:key="index" class="account-success">{{item}}</text>
+            </view>
+            <view wx:if="{{signAccountsResult.failedAccounts && signAccountsResult.failedAccounts.length > 0}}" class="accounts-failed" style="margin-top: 10rpx;">
+              <text>失败账号：</text>
+              <text wx:for="{{signAccountsResult.failedAccounts}}" wx:key="index" class="account-failed">{{item}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 检测失败 -->
+      <block wx:if="{{signStatus === 'failed'}}">
+        <view class="sign-status failed">
+          <text class="status-text">检测失败</text>
+          <text class="result-text">{{signResult.message}}</text>
+          <button class="btn-primary" bindtap="resetSign">重试</button>
+        </view>
+      </block>
+    </block>
+  </view>
+</view>
+
+<!-- 添加手势绘制组件 -->
+<gesture-drawer 
+  wx:if="{{showGestureDrawer}}"
+  show="{{showGestureDrawer}}" 
+  bind:confirm="onGestureConfirm"
+  bind:close="onGestureClose"
+/> 
